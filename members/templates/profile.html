@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>data of {{member.id}}</title>
@@ -30,6 +31,28 @@
             align-items: center;
             justify-content: center;
             padding: 40px 16px;
+            position: relative;
+        }
+
+        .back {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 14px;
+            border-radius: 999px;
+            z-index: 3;
+        }
+
+        .back:hover {
+            background: rgba(255,255,255,0.3);
         }
 
         .profile-modal {
@@ -48,23 +71,7 @@
             position: relative;
         }
 
-        .profile-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.25);
-            color: #fff;
-            border: none;
-            font-size: 18px;
-            line-height: 40px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        /* avatar now sits in a wrapper that's NOT clipped by the modal's overflow:hidden,
+        /* avatar sits in a wrapper that's NOT clipped by the modal's overflow:hidden,
            and is positioned absolutely so it can't be shifted/cut by layout changes */
         .profile-avatar-wrap {
             position: absolute;
@@ -159,22 +166,13 @@
             padding: 6px 12px;
             border-radius: 8px;
         }
-
-        .back {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            color: #3a3f4b;
-            text-decoration: none;
-            font-size: 14px;
-        }
     </style>
 </head>
 <body>
 
     <div class="profile-modal">
         <div class="profile-header">
-            <button class="profile-close" aria-label="Close">✕</button>
+            <a class="back" href="/members/">← back</a>
         </div>
 
         <div class="profile-avatar-wrap">
@@ -207,8 +205,6 @@
             </div>
         </div>
     </div>
-
-    <a class="back" href="/members/">← back</a>
 
 </body>
 </html>
