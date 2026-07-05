@@ -53,7 +53,7 @@
 <div class="count">Showing <strong>{{ total }}</strong> total profiles</div>
 
 <div class="grid">
-{% for s in members %} #loop through each member in the members list
+{% for s in members %} 
 {% with colors="4CAF50,E91E63,2196F3,FF5722,9C27B0,00BCD4,FF9800,607D8B" %}
 <a class="card" href="/members/{{ s.id }}/">
     <div class="avatar" style="background-color: hsl({{ forloop.counter0 }}00, 60%, 45%);">
