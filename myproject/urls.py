@@ -19,6 +19,6 @@ from django.urls import path
 from members import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('members/<str:name>/', views.profile, name='profile'),
+    path('members/', views.index, name='index'),
+    path('members/<str:id>/', views.profile, name='profile'),
 ]

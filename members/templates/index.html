@@ -1,71 +1,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ALL MEMBERS</title>
+    <title>Athlete Registry</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
-        }
-        .search input {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            margin-bottom: 16px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 32px; }
 
-        .name-card {
-            padding: 12px;
-            margin: 8px 0;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            cursor: pointer;
-        }
+        .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+        .header h1 { font-size: 32px; font-weight: 900; }
+        .header p { color: #666; margin-top: 4px; }
+        .btn-all { background: #3b82f6; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; }
 
-        .name-card:hover {
-            background: #f0f0f0;
-        }
+        hr { border: none; border-top: 1px solid #ddd; margin-bottom: 24px; }
+
+        .search-bar { background: white; border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; gap: 8px; margin-bottom: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+        .search-bar input { border: none; outline: none; font-size: 15px; width: 100%; }
+
+        .count { text-align: right; color: #555; margin-bottom: 24px; font-size: 14px; }
+        .count strong { color: black; }
+
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+        .card { background: white; border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); cursor: pointer; text-decoration: none; color: black; }
+        .card:hover { background: #f0f4ff; }
+
+        .avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 16px; flex-shrink: 0; }
+
+        .card-info { flex: 1; }
+        .card-meta { display: flex; justify-content: space-between; font-size: 12px; color: #888; margin-bottom: 4px; }
+        .card-name { font-size: 16px; font-weight: bold; margin-bottom: 6px; }
+        .badge { background: #e0f0ff; color: #3b82f6; border-radius: 4px; padding: 2px 6px; font-size: 12px; }
+
     </style>
 </head>
 <body>
 
-    <div class="search">
-        <input type="text" id="searchInput" placeholder="ค้นหาชื่อนักเรียน..." onkeyup="filterNames()">
+<div class="header">
+    <div>
+        <h1>Athlete Registry</h1>
+        <p>Browse and find registered athletes.</p>
     </div>
+    <button class="btn-all">⊞ See All Members</button>
+</div>
 
-    <div id="nameList">
-        <div class="name-card" onclick="goToProfile('101')">101</div>
-        <div class="name-card" onclick="goToProfile('102')">102</div>
-        <div class="name-card" onclick="goToProfile('103')">103</div>
-        <div class="name-card" onclick="goToProfile('104')">104</div>
+<hr>
+
+<form method="GET">
+    <div class="search-bar">
+        🔍 <input type="text" name="q" value="{{ query }}" placeholder="Search by name, ID, or country (e.g., 100, Burawitchaya, CAM)">
     </div>
+</form>
 
-    <script>
-    function filterNames() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const cards = document.querySelectorAll('.name-card');
-        
-        cards.forEach(card => {
-            if (card.textContent.toLowerCase().includes(input)) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
+<div class="count">Showing <strong>{{ total }}</strong> total profiles</div>
 
-    function goToProfile(name) {
-        window.location.href = '/members/' + name + '/';
-    }
-    </script>
+<div class="grid">
+{% for s in members %}
+{% with colors="4CAF50,E91E63,2196F3,FF5722,9C27B0,00BCD4,FF9800,607D8B" %}
+<a class="card" href="/members/{{ s.id }}/">
+    <div class="avatar" style="background-color: hsl({{ forloop.counter0 }}00, 60%, 45%);">
+        {{ s.initials }}
+    </div>
+    <div class="card-info">
+        <div class="card-meta">
+            <span>#{{ s.id }}</span>
+            <span>{{ s.country }}</span>
+        </div>
+        <div class="card-name">{{ s.firstName }} {{ s.lastName }}</div>
+        <div>
+            <span class="badge">{{ s.classification }}</span>
+            · {{ s.gender }}
+        </div>
+    </div>
+    <span>></span>
+</a>
+{% endwith %}
+{% endfor %}
+</div>
 
 </body>
 </html>
