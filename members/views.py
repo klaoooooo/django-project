@@ -4,14 +4,15 @@ from django.shortcuts import render
 
 def index(request):
     members = []
-    csv_path = os.path.join(os.path.dirname(__file__), 'Athlests.member.csv')
+    # แก้ path ให้ชี้ไปที่ myproject แทน
+    csv_path = os.path.join(os.path.dirname(__file__), '..', 'myproject', 'Athlests.member.csv')
     
     with open(csv_path, encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             initials = (row['firstName'][0] + row['lastName'][0]).upper()
             row['initials'] = initials
-            members.append(row)  
+            members.append(row)
     
     query = request.GET.get('q', '')
     if query:
@@ -22,13 +23,13 @@ def index(request):
             query.lower() in m['country'].lower()]
     
     return render(request, 'index.html', {
-        'members': members,  
+        'members': members,
         'query': query,
         'total': len(members)
     })
 
-def profile(request, id): 
-    csv_path = os.path.join(os.path.dirname(__file__), 'Athlests.member.csv')
+def profile(request, id):
+    csv_path = os.path.join(os.path.dirname(__file__), '..', 'myproject', 'Athlests.member.csv')
     member = None
     
     with open(csv_path, encoding='utf-8') as f:

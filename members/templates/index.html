@@ -40,7 +40,6 @@
         <h1>Athlete Registry</h1>
         <p>Browse and find registered athletes.</p>
     </div>
-    <button class="btn-all">⊞ See All Members</button>
 </div>
 
 <hr>
@@ -54,7 +53,7 @@
 <div class="count">Showing <strong>{{ total }}</strong> total profiles</div>
 
 <div class="grid">
-{% for s in members %}
+{% for s in members %} #loop through each member in the members list
 {% with colors="4CAF50,E91E63,2196F3,FF5722,9C27B0,00BCD4,FF9800,607D8B" %}
 <a class="card" href="/members/{{ s.id }}/">
     <div class="avatar" style="background-color: hsl({{ forloop.counter0 }}00, 60%, 45%);">
@@ -71,7 +70,6 @@
             · {{ s.gender }}
         </div>
     </div>
-    <span>></span>
 </a>
 {% endwith %}
 {% endfor %}
