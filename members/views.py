@@ -1,5 +1,8 @@
 from django.shortcuts import render
 
 # Create your views here.
-def members(request):
+def index(request):
     return render(request, 'index.html')
+
+def profile(request, name):
+    return render(request, 'profile.html', {'name': name})
