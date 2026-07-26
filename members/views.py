@@ -1,43 +1,25 @@
-import csv
-import os
 from django.shortcuts import render
+from .models import Member
 
 def index(request):
-    members = []
-    # แก้ path ให้ชี้ไปที่ myproject แทน
-    csv_path = os.path.join(os.path.dirname(__file__), '..', 'myproject', 'Athlests.member.csv')
-    
-    with open(csv_path, encoding='utf-8') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            initials = (row['firstName'][0] + row['lastName'][0]).upper()
-            row['initials'] = initials
-            members.append(row)
-    
+    members = Member.objects.all()
     query = request.GET.get('q', '')
     if query:
-        members = [m for m in members if 
-            query.lower() in m['firstName'].lower() or
-            query.lower() in m['lastName'].lower() or
-            query.lower() in m['id'].lower() or
-            query.lower() in m['country'].lower()]
-    
+        members = members.filter(
+            firstName__icontains=query
+        ) | members.filter(
+            lastName__icontains=query
+        ) | members.filter(
+            id__icontains=query
+        ) | members.filter(
+            country__icontains=query
+        )
     return render(request, 'index.html', {
         'members': members,
         'query': query,
-        'total': len(members)
+        'total': members.count()
     })
 
 def profile(request, id):
-    csv_path = os.path.join(os.path.dirname(__file__), '..', 'myproject', 'Athlests.member.csv')
-    member = None
-    
-    with open(csv_path, encoding='utf-8') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            if row['id'] == id:
-                row['initials'] = (row['firstName'][0] + row['lastName'][0]).upper()
-                member = row
-                break
-    
+    member = Member.objects.get(id=id)
     return render(request, 'profile.html', {'member': member})
